@@ -5,6 +5,9 @@
 **Status**: Draft  
 **Input**: User description: "$ARGUMENTS"
 
+**Repository Constraints**: This project is a static web app intended for GitHub Pages hosting.
+All requirements MUST be compatible with static hosting (no required server runtime).
+
 ## User Scenarios & Testing *(mandatory)*
 
 <!--

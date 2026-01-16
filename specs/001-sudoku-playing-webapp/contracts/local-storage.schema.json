@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/sudoku-lite/local-storage.schema.json",
+  "title": "Sudoku Lite localStorage schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "sudoku_lite:lastDifficulty": {
+      "description": "Optional: last selected difficulty string.",
+      "type": "string",
+      "enum": [
+        "beginner",
+        "intermediate",
+        "advanced",
+        "expert",
+        "master",
+        "extreme"
+      ]
+    }
+  }
+}

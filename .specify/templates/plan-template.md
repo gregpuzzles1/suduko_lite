@@ -31,7 +31,11 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- Static-only and GitHub Pages compatible (no required server runtime)
+- No secrets or sensitive data included in repo or shipped to clients
+- Accessibility baseline met (keyboard navigation + semantic UI)
+- Performance conscious (avoid unnecessary bloat; keep initial load lightweight)
+- Deterministic build/deploy (document a single build command if applicable)
 
 ## Project Structure
 

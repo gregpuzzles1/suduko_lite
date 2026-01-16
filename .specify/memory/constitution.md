@@ -1,50 +1,90 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+
+- Version change: uninitialized template → 1.0.0
+- Modified principles: N/A (initialized from template)
+- Added sections: N/A (filled existing placeholders)
+- Removed sections: N/A
+- Templates requiring updates:
+	- ✅ .specify/templates/plan-template.md
+	- ✅ .specify/templates/spec-template.md
+	- ✅ .specify/templates/tasks-template.md
+	- ⚠ .specify/templates/commands/*.md (folder not present)
+	- ⚠ Runtime docs (README/docs) not present
+- Deferred TODOs: None
+-->
+
+# Sudoku Lite Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Static-First (GitHub Pages Compatible)
+- The app MUST run as a static site (HTML/CSS/JS + assets) with no required server runtime.
+- All core functionality MUST work without any API calls to private backends.
+- Features MUST degrade gracefully when offline or when external resources fail.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+Rationale: GitHub Pages serves static files only; reliability comes from minimizing runtime
+dependencies.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### II. No Secrets, Safe Inputs
+- The repository MUST NOT contain secrets (API keys, tokens, credentials) in any form.
+- Client-side code MUST treat all external data as untrusted and validate/sanitize before
+	rendering.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+Rationale: Anything shipped to the browser is public.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### III. Accessibility & UX Baseline
+- UI MUST be keyboard navigable for all primary interactions.
+- Use semantic HTML and accessible names/labels for interactive elements.
+- The site MUST be usable on both mobile and desktop (responsive layout).
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+Rationale: Static apps are often shared widely; accessibility is a non-negotiable baseline.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### IV. Performance & Offline-Friendly Defaults
+- Initial load MUST stay lightweight: avoid unnecessary frameworks and large bundles.
+- Prefer local assets and local storage over network dependencies.
+- Any animations/effects MUST not block interaction and MUST respect reduced-motion settings
+	when applicable.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+Rationale: GitHub Pages is fast, but the browser experience depends on what we ship.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### V. Deterministic Builds & Deployments
+- The deployed site MUST be reproducible from the repository (no manual “click-ops”).
+- If a build step exists, it MUST be deterministic and documented (single command to build).
+- Production builds MUST not rely on developer-local configuration.
+
+Rationale: Predictable deployments reduce regressions and make review meaningful.
+
+## Hosting & Build Constraints
+
+- The site MUST work when hosted under a repository subpath (GitHub Pages default), so all
+	asset URLs and links MUST be relative or correctly configured for a non-root base path.
+- If using client-side routing (SPA), routing MUST be GitHub Pages compatible (e.g., hash
+	routing or a documented 404 fallback strategy).
+- Content MUST be served over HTTPS-only resources; mixed-content dependencies are forbidden.
+
+## Workflow & Quality Gates
+
+- Every change MUST go through a PR.
+- PR reviews MUST include a quick constitution check:
+	- Still static-only and GitHub Pages compatible
+	- No secrets added
+	- UI remains keyboard accessible
+	- Build/deploy remains deterministic
+- If a build exists, CI MUST at minimum run the build (and lint/format checks if present).
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+- This constitution is the top-level policy for the repository.
+- Amendments MUST be made via PR and MUST include:
+	- The updated constitution text
+	- An updated Sync Impact Report
+	- A semantic version bump following the policy below
+- Versioning policy (SemVer):
+	- MAJOR: incompatible governance changes or removal/redefinition of a principle
+	- MINOR: new principle or materially expanded requirements
+	- PATCH: clarifications/typos/non-semantic refinements
+- Reviews MUST block merging if a change violates the constitution without an explicit
+	amendment.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2026-01-16 | **Last Amended**: 2026-01-16

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A modern, sleek Sudoku playing website with multiple difficulty levels">
+    <title>Sudoku Lite</title>
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/board.css">
+    <link rel="stylesheet" href="styles/controls.css">
+    <link rel="stylesheet" href="styles/modal.css">
+</head>
+<body>
+    <header>
+        <h1>Sudoku Lite</h1>
+        <div class="header-controls">
+            <div class="new-game-container">
+                <button id="newGameBtn" class="btn-primary" aria-haspopup="true" aria-expanded="false">
+                    New Game
+                </button>
+                <div id="difficultyDropdown" class="dropdown-menu" role="menu" hidden>
+                    <button role="menuitem" data-difficulty="beginner">Beginner</button>
+                    <button role="menuitem" data-difficulty="intermediate">Intermediate</button>
+                    <button role="menuitem" data-difficulty="advanced">Advanced</button>
+                    <button role="menuitem" data-difficulty="expert">Expert</button>
+                    <button role="menuitem" data-difficulty="master">Master</button>
+                    <button role="menuitem" data-difficulty="extreme">Extreme</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="game-container">
+            <div id="board" class="board" role="grid" aria-label="Sudoku grid"></div>
+
+            <div class="controls-row">
+                <button id="undoBtn" class="btn-control" title="Undo last action">
+                    <span class="icon">↶</span> Undo
+                </button>
+                <button id="eraseBtn" class="btn-control" title="Erase selected cell">
+                    <span class="icon">🗑️</span> Erase
+                </button>
+                <button id="pencilBtn" class="btn-control" aria-pressed="false" title="Toggle pencil marks mode">
+                    <span class="icon">✏️</span> Pencil
+                </button>
+            </div>
+
+            <div class="number-row" role="toolbar" aria-label="Number input">
+                <button class="number-btn" data-number="1">1</button>
+                <button class="number-btn" data-number="2">2</button>
+                <button class="number-btn" data-number="3">3</button>
+                <button class="number-btn" data-number="4">4</button>
+                <button class="number-btn" data-number="5">5</button>
+                <button class="number-btn" data-number="6">6</button>
+                <button class="number-btn" data-number="7">7</button>
+                <button class="number-btn" data-number="8">8</button>
+                <button class="number-btn" data-number="9">9</button>
+            </div>
+        </div>
+
+        <section class="rules-section">
+            <h2>How to Play Sudoku</h2>
+            <p>
+                Sudoku is a logic-based number puzzle played on a 9×9 grid divided into nine 3×3 boxes.
+                The goal is to fill the grid so that each row, column, and 3×3 box contains the digits 1–9
+                exactly once. Some cells start with given numbers (clues) that cannot be changed.
+            </p>
+            <p>
+                Select an empty cell and click a number to fill it in. Use pencil mode to add small candidate
+                marks. The game highlights incorrect entries in red and correct entries in blue, helping you
+                solve the puzzle. Enjoy!
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <p>
+            © 2026 Greg Christian · MIT License
+            <span class="separator">|</span>
+            <a href="https://github.com/gregpuzzles1/suduko_lite" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <span class="separator">|</span>
+            <a href="contact.html">Contact</a>
+        </p>
+    </footer>
+
+    <div id="winModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="winModalTitle" hidden>
+        <div class="modal-content">
+            <h2 id="winModalTitle">🎉 Congratulations!</h2>
+            <p>You've successfully solved the puzzle!</p>
+            <button id="closeModalBtn" class="btn-primary">Close</button>
+        </div>
+    </div>
+    <canvas id="confettiCanvas" aria-hidden="true"></canvas>
+
+    <script type="module" src="src/app.js"></script>
+</body>
+</html>
