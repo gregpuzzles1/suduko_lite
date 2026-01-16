@@ -40,7 +40,7 @@ This site is designed for GitHub Pages:
 
 1. Push the repository to GitHub
 2. Enable GitHub Pages in repository settings (deploy from `main` branch)
-3. The site will be available at `https://yourusername.github.io/sudoku_lite/`
+3. The site will be available at `https://gregpuzzles1.github.io/sudoku_lite/`
 
 All links and assets use relative paths for subpath compatibility.
 
