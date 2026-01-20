@@ -3,16 +3,9 @@
  * Bootstraps the app and initializes UI event handlers
  */
 
+import { APP_VERSION } from './version.js';
 import { generatePuzzleWithRetry } from './sudoku/generator.js';
-import { createGameState, applyAction, undo, isSolved } from './state.js';
-import { 
-    initBoard, 
-    renderBoard, 
-    getCellIndexFromEvent, 
-    setActiveCellFocus, 
-    shakeCell,
-    getSelectedNumber 
-} from './ui/board.js';
+import { createGameState, applyAction, undo, isSolved, isCorrect } from './state.js';
 import { 
     initNewGameDropdown, 
     initNumberPad, 
@@ -26,9 +19,15 @@ import { initConfetti, startConfetti } from './ui/confetti.js';
 
 let gameState = null;
 let lastSolvedState = false;
+let boardUI = null;
 
-document.addEventListener('DOMContentLoaded', () => {
+async function main() {
     console.log('Sudoku Lite - App starting...');
+
+    // Dynamic import to avoid stale ESM dependency caching on desktop.
+    // Only bump APP_VERSION in src/version.js going forward.
+    const v = encodeURIComponent(APP_VERSION);
+    boardUI = await import(`./ui/board.js?v=${v}`);
     
     // Get DOM elements
     const boardElement = document.getElementById('board');
@@ -43,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const confettiCanvas = document.getElementById('confettiCanvas');
     
     // Initialize UI modules
-    initBoard(boardElement);
+    boardUI.initBoard(boardElement);
     initConfetti(confettiCanvas);
     initModal(winModal, closeModalBtn, () => {
         // Modal closed
@@ -68,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
             onErase: () => {
                 if (!gameState || gameState.activeCell === null) return;
                 if (gameState.givens[gameState.activeCell]) {
-                    shakeCell(gameState.activeCell);
+                    boardUI.shakeCell(gameState.activeCell);
                     return;
                 }
                 gameState = applyAction(gameState, { type: 'erase', index: gameState.activeCell });
@@ -84,10 +83,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Board click handler
     boardElement.addEventListener('click', (e) => {
-        const index = getCellIndexFromEvent(e);
+        const index = boardUI.getCellIndexFromEvent(e);
         if (index !== null) {
             gameState = applyAction(gameState, { type: 'setActiveCell', index });
-            setActiveCellFocus(index);
+            boardUI.setActiveCellFocus(index);
             render();
         }
     });
@@ -130,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'Backspace':
             case 'Delete':
                 if (gameState.givens[currentIndex]) {
-                    shakeCell(currentIndex);
+                    boardUI.shakeCell(currentIndex);
                 } else {
                     gameState = applyAction(gameState, { type: 'erase', index: currentIndex });
                     render();
@@ -142,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (newIndex !== currentIndex) {
             gameState = applyAction(gameState, { type: 'setActiveCell', index: newIndex });
             if (newIndex !== null) {
-                setActiveCellFocus(newIndex);
+                boardUI.setActiveCellFocus(newIndex);
             }
             render();
         }
@@ -150,7 +149,21 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Don't auto-start game - wait for user to click New Game
     console.log('App ready. Click "New Game" to start.');
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        main().catch((error) => {
+            console.error('Sudoku Lite failed to start:', error);
+            alert('Sudoku Lite failed to start. Please refresh the page.');
+        });
+    });
+} else {
+    main().catch((error) => {
+        console.error('Sudoku Lite failed to start:', error);
+        alert('Sudoku Lite failed to start. Please refresh the page.');
+    });
+}
 
 function startNewGame(difficulty) {
     console.log(`Starting new game: ${difficulty}`);
@@ -198,7 +211,7 @@ function handleNumberInput(number) {
     const index = gameState.activeCell;
     
     if (gameState.givens[index]) {
-        shakeCell(index);
+        boardUI.shakeCell(index);
         return;
     }
     
@@ -215,10 +228,11 @@ function handleNumberInput(number) {
 }
 
 function render() {
-    if (!gameState) return;
+    if (!gameState || !boardUI) return;
     
-    const selectedNumber = getSelectedNumber(gameState);
-    renderBoard(gameState, selectedNumber);
+    const selectedNumber = boardUI.getSelectedNumber(gameState);
+    const selectedIsCorrect = selectedNumber === null ? null : isCorrect(gameState, gameState.activeCell);
+    boardUI.renderBoard(gameState, selectedNumber, selectedIsCorrect);
     
     // Update pencil button
     const pencilBtn = document.getElementById('pencilBtn');

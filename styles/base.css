@@ -14,6 +14,8 @@
     --color-incorrect: #ef4444;
     --color-conflict-bg: #fee2e2;
     --color-highlight-row-col: #dbeafe;
+    --color-highlight-same-number: #93c5fd;
+    --color-highlight-same-number-incorrect: #fecaca;
     --color-active-cell: #3b82f6;
     --color-focus: #3b82f6;
     
@@ -305,6 +307,28 @@ button {
     .number-btn {
         width: 40px;
         height: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .number-row {
+        width: 100%;
+        flex-wrap: nowrap;
+        gap: var(--space-xs);
+    }
+
+    .number-btn {
+        flex: 1 1 0;
+        width: auto;
+        min-width: 0;
+        height: 44px;
+        background-color: transparent;
+        border: none;
+        border-radius: 0;
+    }
+
+    .number-btn:hover {
+        background-color: transparent;
     }
 }
 
