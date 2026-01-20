@@ -34,13 +34,77 @@ php -S localhost:8000
 
 Then visit `http://localhost:8000` in your browser.
 
+## Running on Your LAN (Phone / Tablet)
+
+To open the site from another device (like your phone), you need to:
+
+1. Make sure your computer and phone are on the same Wi‑Fi / LAN.
+2. Start the server bound to your LAN interface (not just `localhost`).
+3. Open the LAN URL from your phone.
+
+### 1) Find your PC’s LAN IP
+
+On Windows PowerShell:
+
+```powershell
+ipconfig
+```
+
+Look for an IPv4 address like `192.168.1.23` on your active adapter.
+
+### 2) Start a server that listens on the network
+
+From the project folder:
+
+```bash
+# Python 3 (recommended)
+python -m http.server 8000 --bind 0.0.0.0
+
+# Node.js (http-server)
+npx http-server -a 0.0.0.0 -p 8000
+
+# PHP
+php -S 0.0.0.0:8000
+```
+
+### 3) Open it from your phone
+
+On your phone’s browser, go to:
+
+`http://<YOUR_PC_IP>:8000/`
+
+Example:
+
+`http://192.168.1.23:8000/`
+
+### If it doesn’t load
+
+- Windows Firewall may be blocking the port. Allow your server app through, or open TCP port `8000` for your Private network.
+- Try a different port (e.g. `8080`) if `8000` is in use.
+- Some guest Wi‑Fi networks block device‑to‑device traffic (client isolation). If so, switch networks or disable isolation on the router.
+
+## Cache Busting (Desktop + Mobile)
+
+Browsers can sometimes cache ES module dependencies and CSS aggressively.
+If you ship changes and a device still seems to be running old code/styles:
+
+- Bump `APP_VERSION` in `src/version.js`
+- Reload (desktop: `Ctrl+F5`)
+
+This forces fresh JS/CSS to be fetched on both desktop and mobile.
+
 ## Deployment
 
-This site is designed for GitHub Pages:
+This site is designed for GitHub Pages.
+
+### Deploy with GitHub Actions (recommended)
 
 1. Push the repository to GitHub
-2. Enable GitHub Pages in repository settings (deploy from `main` branch)
-3. The site will be available at `https://yourusername.github.io/sudoku_lite/`
+2. In GitHub: **Settings → Pages**
+3. Under **Build and deployment**, set **Source** to **GitHub Actions**
+4. Push to `main` (or run the workflow manually)
+
+The site will be available at `https://yourusername.github.io/sudoku_lite/` (project pages) or `https://yourusername.github.io/` (user pages).
 
 All links and assets use relative paths for subpath compatibility.
 

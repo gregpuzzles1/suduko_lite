@@ -39,8 +39,9 @@ export function initBoard(container) {
  * Render the board based on current game state
  * @param {object} state - Game state
  * @param {number | null} selectedNumber - Currently selected number for same-number highlighting
+ * @param {boolean | null} selectedIsCorrect - Whether the active cell's value is correct
  */
-export function renderBoard(state, selectedNumber = null) {
+export function renderBoard(state, selectedNumber = null, selectedIsCorrect = null) {
     const grid = getCurrentGrid(state);
     
     for (let i = 0; i < 81; i++) {
@@ -100,9 +101,15 @@ export function renderBoard(state, selectedNumber = null) {
                 }
             }
             
-            // Same-number highlighting - highlight all cells with same number when active cell has correct value
-            if (selectedNumber && value === selectedNumber) {
-                cell.classList.add('same-number');
+            // Same-number highlighting - highlight all cells with the active cell's number.
+            // Use a darker blue for correct active value, or a red tint for incorrect active value.
+            // Compare numerically to avoid any string/number mismatches.
+            if (selectedNumber !== null && Number(value) === Number(selectedNumber)) {
+                if (selectedIsCorrect === false) {
+                    cell.classList.add('same-number-incorrect');
+                } else {
+                    cell.classList.add('same-number');
+                }
             }
         } else {
             // Empty cell - show pencil marks if any
@@ -178,6 +185,5 @@ export function getSelectedNumber(state) {
     const grid = getCurrentGrid(state);
     const value = grid[state.activeCell];
     if (value === 0) return null;
-    if (!isCorrect(state, state.activeCell) && !state.givens[state.activeCell]) return null;
-    return value;
+    return Number(value);
 }
