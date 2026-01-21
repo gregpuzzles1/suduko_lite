@@ -15,6 +15,11 @@
 - Q: When a number is selected/entered (e.g., “3”), what should “highlight the same numbers throughout the grid” apply to? → A: Highlight only correct same numbers (blue only).
 - Q: When a correct large number is entered, where should invalid pencil marks be auto-deleted? → A: Across the entire grid wherever that candidate becomes invalid.
 
+### Session 2026-01-20
+
+- Q: When a number is selected/entered (e.g., “3”), what should same-number highlighting apply to? → A: Highlight all cells with that number; if the active value is correct use blue highlight, if incorrect use red-tinted highlight.
+- Q: Footer content changes? → A: Footer should show “© 2025–<current year> Greg Christian · MIT License”, include an email link (mailto), a GitHub repo link, and an “Open an Issue” link.
+
 ## User Scenarios & Testing *(mandatory)*
 
 <!--
@@ -52,8 +57,10 @@ features.
 3. **Given** I enter a value that is incorrect for that cell, **When** it is placed, **Then**
   it is shown in red.
 4. **Given** I enter a value that is correct for that cell, **When** it is placed, **Then**
-  it is shown in blue and all other matching correct values in the grid are highlighted.
-5. **Given** a cell is active, **When** it is selected, **Then** its row, column, and 3x3 box
+  it is shown in blue and all other matching values in the grid are highlighted in blue.
+5. **Given** I enter a value that is incorrect for that cell, **When** it is placed, **Then**
+  all other matching values in the grid are highlighted with a red-tinted highlight.
+6. **Given** a cell is active, **When** it is selected, **Then** its row, column, and 3x3 box
   are highlighted with a light blue/grey background while keeping existing numbers readable.
 
 ---
@@ -103,7 +110,7 @@ verify the congratulations popup and confetti appear.
 2. **Given** I scroll below the game board, **When** I view the page, **Then** I see a short
   rules section explaining how to play Sudoku.
 3. **Given** I view the footer, **When** I read it, **Then** it shows “© 2026 Greg Christian ·
-  MIT License” plus links to the project repository and a contact page.
+  MIT License” plus an email link, a link to the project repository, and an “Open an Issue” link.
 
 ---
 
@@ -200,9 +207,12 @@ Validation, highlighting, and automation:
   (thicker), (2) Conflict background (light red), (3) Text color (red incorrect / blue
   correct / black given), (4) Row/col/box highlight (light blue/grey), (5) Same-number
   highlight (blue text bold). All compatible layers apply simultaneously.
-- **FR-018**: When a correct large value is present, all other correct occurrences of that
-  number in the grid MUST be highlighted in blue (incorrect red values are not included in
-  same-number highlighting).
+- **FR-018**: When the active cell contains a non-empty large value (given or user-entered),
+  all other cells containing that same number MUST be highlighted.
+- **FR-018a**: If the active cell's value is correct, the same-number highlight MUST use a
+  blue highlight.
+- **FR-018b**: If the active cell's value is incorrect, the same-number highlight MUST use a
+  red-tinted highlight.
 - **FR-019**: After a correct large value is entered, the system MUST remove pencil marks
   that are no longer valid across the entire grid (i.e., from any cell where the candidate
   is invalid due to the current board state). Pruning logic uses only the known-correct
@@ -224,11 +234,12 @@ Completion & content:
   “Congratulations” popup and play a confetti effect.
 - **FR-024**: The page MUST include a rules section below the playing area explaining Sudoku
   rules in one to two paragraphs.
-- **FR-025**: The page MUST include a footer containing: “© 2026 Greg Christian · MIT
-  License", a link to the project's GitHub repository (https://github.com/GregPesc/sudoku_lite),
-  and a link to a contact page.
+- **FR-025**: The page MUST include a footer containing: “© 2025–<current year> Greg Christian ·
+  MIT License", an email link to gregpuzzles1@gmail.com, a link to the project's GitHub repository
+  (https://github.com/gregpuzzles1/suduko_lite), and an “Open an Issue” link to
+  https://github.com/gregpuzzles1/suduko_lite/issues/new.
 - **FR-025a**: The contact page MUST contain: a heading, a brief intro ("Get in touch"), and
-  an email link to greg.christian@example.com (or equivalent placeholder).
+  an email link to gregpuzzles1@gmail.com.
 - **FR-025b**: All interactive elements MUST have visible focus indicators for keyboard
   navigation (2px solid outline with 3:1 contrast).
 - **FR-025c**: All text MUST meet WCAG AA contrast ratios (4.5:1 for normal text, 3:1 for

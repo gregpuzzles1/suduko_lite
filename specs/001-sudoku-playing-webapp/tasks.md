@@ -76,7 +76,7 @@ description: "Task list for Modern Sudoku Playing Website"
 - [X] T030 [US1] Connect New Game selection to generator and initialize GameState in src/app.js
 - [X] T031 [US1] Display incorrect (vs solution) user numbers in red in src/ui/board.js
 - [X] T032 [US1] Display correct (vs solution) user numbers in blue in src/ui/board.js
-- [X] T033 [US1] Highlight correct same-number occurrences across the grid (correct-only) in src/ui/board.js
+- [X] T033 [US1] Highlight same-number occurrences across the grid based on the active cell's value (blue when correct, red when incorrect) in src/ui/board.js
 - [X] T034 [US1] Highlight constraint conflicts (duplicates in row/col/box) distinctly from red/blue in src/ui/board.js
 - [X] T035 [US1] Ensure input is a no-op when no cell is selected (with subtle feedback) in src/ui/controls.js
 - [X] T036 [US1] Add keyboard support: arrow keys move selection, digits 1–9 enter, Esc clears selection in src/ui/board.js
@@ -123,7 +123,7 @@ description: "Task list for Modern Sudoku Playing Website"
 - [X] T051 [US3] Trigger confetti on win and stop/cleanup after animation in src/app.js
 - [X] T052 [US3] Respect reduced motion preferences (disable or reduce confetti) in src/ui/confetti.js
 - [X] T053 [US3] Add Sudoku rules section content (1–2 paragraphs) below the playing area in index.html
-- [X] T054 [US3] Implement footer content and links (MIT, repo, contact) in index.html
+- [X] T054 [US3] Implement footer content and links (MIT, email, repo, Open an Issue) in index.html
 - [X] T055 [US3] Ensure footer links are relative and work under GitHub Pages subpath in index.html
 - [X] T056 [US3] Fill contact page content and ensure nav links work (home ↔ contact) in contact.html
 
@@ -156,9 +156,26 @@ description: "Task list for Modern Sudoku Playing Website"
 - [X] T068 Update contact email to gregpuzzles1@gmail.com in contact.html
 - [X] T069 Update GitHub repository links to https://github.com/gregpuzzles1/suduko_lite in index.html and contact.html
 - [X] T070 Fix same-number highlighting to show all cells (given and user-entered) with that number in src/ui/board.js
-- [X] T071 Update same-number highlighting to use same background color as row/column/box highlighting in styles/board.css
+- [X] T071 Update same-number highlighting color to be a darker blue distinct from row/column highlighting in styles/base.css and styles/board.css
 - [X] T072 Fix right border thickness on grid by excluding 9th column cells from thick border in styles/board.css
 - [X] T073 Improve grid line visibility by darkening cell border color in styles/base.css
+
+---
+
+## Phase 8: 2026-01-20 Enhancements (LAN, UI Polish, Deployment)
+
+**Purpose**: Improvements made during multi-device testing (desktop + mobile) and deployment setup.
+
+- [X] T074 Document LAN/mobile local testing steps (bind to 0.0.0.0 + phone URL) in README.md
+- [X] T075 Increase main cell number font size for readability in styles/board.css
+- [X] T076 Improve mobile number pad layout (keep 1–9 on one row) and remove square button styling on small screens in styles/base.css
+- [X] T077 Add darker blue token for same-number highlighting in styles/base.css and apply in styles/board.css
+- [X] T078 Add incorrect same-number highlighting (red tint) when active cell is incorrect in styles/base.css, styles/board.css, src/app.js, and src/ui/board.js
+- [X] T079 Update footer to show dynamic year range (2025–current year) using a runtime script in src/footer.js and wire it into pages
+- [X] T080 Update footer links: add email (mailto) and replace Contact link with Open an Issue link in index.html and contact.html
+- [X] T081 Add robust cache-busting/versioning to avoid ESM/CSS caching issues (APP_VERSION + boot loader) in src/version.js, src/boot.js, and HTML pages
+- [X] T082 Add GitHub Pages deployment via GitHub Actions workflow in .github/workflows/pages.yml
+- [X] T083 Limit Pages deployment workflow to site changes only (paths filter) in .github/workflows/pages.yml
 
 **Checkpoint**: All post-implementation issues resolved.
 
